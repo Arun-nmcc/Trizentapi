@@ -2,6 +2,7 @@ package com.Trizent.model;
 
 import java.util.List;
 
+import com.Trizent.link.Link;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
 @Entity
@@ -34,6 +36,7 @@ public class Employee {
 	    @OneToMany( mappedBy = "employee")
 	   
 	    private List<Address> addresses;
+	   
 	public int getId() {
 		return id;
 	}
@@ -64,5 +67,6 @@ public class Employee {
 	public void setAddress(List<Address> address) {
 		this.addresses = address;
 	}
+	
 
 }

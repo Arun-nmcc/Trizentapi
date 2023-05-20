@@ -38,12 +38,14 @@ public class EmployeeAPI {
 	@PostMapping()
 	public ResponseEntity<Employee> saveEmployee(@RequestBody@Valid Employee employee) {
 		Employee saveEmployee = employeeService.saveEmployee(employee);
+		
 		return new ResponseEntity<Employee>(saveEmployee, HttpStatus.CREATED);
 	}
 
 	@GetMapping("{id}")
 	public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") long employeeId) {
 		Employee employeeById = employeeService.getEmployeeById(employeeId);
+		
 		return new ResponseEntity<Employee>(employeeById, HttpStatus.OK);
 	}
 
