@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Trizent.model.Employee;
@@ -29,8 +30,9 @@ public class EmployeeAPI {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Employee>> getAllEmployees() {
-		List<Employee> allEmployees = employeeService.getAllEmployees();
+	public ResponseEntity<List<Employee>> getAllEmployees(@RequestParam(required = false) String sex,
+		    @RequestParam( required = false,name = "nameStartWith") String nameStartsWith) {
+		List<Employee> allEmployees = employeeService.getAllEmployees(sex,nameStartsWith);
 
 		return new ResponseEntity<List<Employee>>(allEmployees, HttpStatus.OK);
 	}

@@ -7,17 +7,23 @@ import org.springframework.stereotype.Service;
 
 import com.Trizent.exceptions.DataNotFoundException;
 import com.Trizent.exceptions.DuplicateEmailException;
+import com.Trizent.model.Address;
 import com.Trizent.model.Employee;
+import com.Trizent.repository.AddressRepository;
 import com.Trizent.repository.EmployeeRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private EmployeeRepository employeeRepository;
+	private AddressRepository addressRepository;
 
-	public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+	public EmployeeServiceImpl(EmployeeRepository employeeRepository, AddressRepository addressRepository) {
 		super();
 		this.employeeRepository = employeeRepository;
+		this.addressRepository = addressRepository;
 	}
 
 	@Override
@@ -31,9 +37,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Employee> getAllEmployees() {
-
-		return employeeRepository.findAll();
+	public List<Employee> getAllEmployees(String sex, String nameStartsWith) {
+		if (sex != null && nameStartsWith != null) {
+			return employeeRepository.findBySexAndNameStartingWith(sex, nameStartsWith);
+		} else if (sex != null) {
+			return employeeRepository.findBySex(sex);
+		} else if (nameStartsWith != null) {
+			return employeeRepository.findByNameStartingWith(nameStartsWith);
+		} else {
+			return employeeRepository.findAll();
+		}
 
 	}
 
@@ -82,12 +95,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void deleteEmployee(long id) {
+
 		Optional<Employee> findById = employeeRepository.findById(id);
 		if (findById.isPresent()) {
+			 Employee employee = findById.get();
+		        List<Address> addresses = employee.getAddress();
+		        
+		     
+		        addressRepository.deleteAll(addresses);
+			
 			employeeRepository.deleteById(id);
-		}
+		}else
 		throw new DataNotFoundException("data not found exception");
 
 	}
-
 }

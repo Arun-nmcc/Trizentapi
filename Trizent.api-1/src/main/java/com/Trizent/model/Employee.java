@@ -2,7 +2,6 @@ package com.Trizent.model;
 
 import java.util.List;
 
-import com.Trizent.link.Link;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -12,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
 @Entity
@@ -22,8 +20,24 @@ public class Employee {
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    @Column(name = "id")
 	    private int id;
+	 @Column(name ="age")
+	 private int age;
+	 @Column(name ="sex")
+	 private String sex;
 
-	    @Column(name = "name")
+	    public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+		@Column(name = "name")
 	    private String name;
 		@Email(regexp = "^[A-Za-z0-9._%+-]+@trizent\\.com$", message = "Please enter a valid email address ending with @trizent.com")
 	
@@ -36,6 +50,7 @@ public class Employee {
 	    @OneToMany( mappedBy = "employee")
 	   
 	    private List<Address> addresses;
+	 
 	   
 	public int getId() {
 		return id;
